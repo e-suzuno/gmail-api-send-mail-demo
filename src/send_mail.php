@@ -3,12 +3,13 @@
 require 'vendor/autoload.php';
 
 
+const CLIENT_CREDENTIALS_PATH = './config/client_credentials.json';
 const TOKEN_FILE_PATH = './config/token.json';
 
 
 $client = new Google_Client();
 
-$client->setAuthConfig('./config/client_credentials.json'); // JSONファイルのパスを指定
+$client->setAuthConfig(CLIENT_CREDENTIALS_PATH); // JSONファイルのパスを指定
 $client->addScope(Google_Service_Gmail::GMAIL_SEND);
 $client->setAccessType('offline');
 $client->setApprovalPrompt('force');
@@ -24,7 +25,7 @@ if (file_exists(TOKEN_FILE_PATH)) {
     if ($client->isAccessTokenExpired()) {
 
         $refresh_token = $client->getRefreshToken();
-        $client->fetchAccessTokenWithRefreshToken($refresh_token );
+        $client->fetchAccessTokenWithRefreshToken($refresh_token);
         $newAccessToken = $client->getAccessToken();
         $newAccessToken['refresh_token'] = $refresh_token;
         file_put_contents(TOKEN_FILE_PATH, json_encode($newAccessToken));

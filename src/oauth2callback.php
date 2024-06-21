@@ -4,11 +4,13 @@ require 'vendor/autoload.php';
 
 session_start();
 
+
+const CLIENT_CREDENTIALS_PATH = './config/client_credentials.json';
 const TOKEN_FILE_PATH = './config/token.json';
 
 
 $client = new Google_Client();
-$client->setAuthConfig('./config/client_credentials.json'); // JSONファイルのパスを指定
+$client->setAuthConfig(CLIENT_CREDENTIALS_PATH); // JSONファイルのパスを指定
 
 $client->addScope(Google_Service_Gmail::GMAIL_SEND);
 $client->setRedirectUri('http://localhost/oauth2callback.php'); // リダイレクトURIを指定
